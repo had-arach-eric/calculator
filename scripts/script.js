@@ -72,6 +72,10 @@ function operate(operator, num1, num2) {
 }
 
 function handlePressNumber(e) {
+  if (lastKey === "equal") {
+    return;
+  }
+
   if (editFirstNumber === true) {
     num1 += e.target.textContent;
     lastKey = "number";
@@ -89,7 +93,7 @@ function handlePressOperator(e) {
     return;
   }
   
-  if (editFirstNumber === true) {
+  if (num2 === "") {
     editFirstNumber = false;
     operator = e.target.textContent;
     lastKey = "operator";
@@ -105,6 +109,7 @@ function handlePressEqual() {
   num1 = operate(operator, num1, num2);
   console.log(num1);
   num2 = "";
+  lastKey = "equal";
 }
 
 
