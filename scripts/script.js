@@ -1,14 +1,9 @@
 /*
 Debes redondear las respuestas con decimales largos para que no desborden la pantalla.
 
-Pulsar = antes de introducir todos los números o un operador puede causar problemas.
+Añade un botón . y deja que los usuarios introduzcan decimales. Asegúrate de que no pueden escribir más de uno: 12.3.56.5. Es difícil hacer cuentas con estos números. (desactiva el botón de decimales si ya hay uno en la pantalla)
 
-Pulsar "clear" debería borrar cualquier dato existente... asegúrese de que el usuario realmente empieza de cero después de pulsar "clear".
-
-Muestra un mensaje de error si el usuario intenta dividir por 0... ¡y no dejes que se bloquee la calculadora!
-
-Mérito extra
-Los usuarios pueden obtener números de coma flotante si hacen los cálculos necesarios para obtenerlos, pero todavía no pueden escribirlos. Añade un botón . y deja que los usuarios introduzcan decimales. Asegúrate de que no pueden escribir más de uno: 12.3.56.5. Es difícil hacer cuentas con estos números. (desactiva el botón de decimales si ya hay uno en la pantalla)
+Añade soporte para teclado. Podrías encontrarte con un problema en el que teclas como (/) podrían causarte algún problema. Lee la documentación MDN para event.preventDefault para ayudar a resolver este problema.
 */
 
 //DOM references
@@ -25,6 +20,7 @@ let num2 = "";
 let operator = "";
 let editFirstNumber = true;
 let lastKey = ";"
+let decimalPressed = false;
 
 
 
@@ -70,14 +66,13 @@ function handlePressNumber(e) {
 
   if (editFirstNumber === true) {
     num1 += e.target.textContent;
-    lastKey = "number";
     console.log(num1);
   }
   else {
     num2 += e.target.textContent;
-    lastKey = "number";
     console.log(num2);
   }
+  lastKey = "number";
 }
 
 function handlePressOperator(e) {
@@ -93,11 +88,12 @@ function handlePressOperator(e) {
   }
   operator = e.target.textContent;
   lastKey = "operator";
+  decimalPressed = false;
   console.log(operator);
 }
 
 function handlePressEqual() {
-  if (num1 === "" || num2 === "") {
+  if (operator === "" || lastKey !== "number") {
     return;
   }
   if (operator === "/" && num2 === "0") {
@@ -105,9 +101,10 @@ function handlePressEqual() {
   }
 
   num1 = operate(operator, num1, num2);
-  console.log(num1);
   num2 = "";
   lastKey = "equal";
+  decimalPressed = false;
+  console.log(num1);
 }
 
 function handleClearAll() {
@@ -116,10 +113,11 @@ function handleClearAll() {
   operator = "";
   editFirstNumber = true;
   lastKey = "clear all";
+  decimalPressed = false;
 }
 
 function handleClearLastDigit() {
-  if (lastKey !== "number") {
+  if (lastKey !== "number" || lastKey !== "decimal") {
     return;
   }
 
@@ -149,10 +147,19 @@ function handleClearLastDigit() {
     }
     console.log(num2);  
   }
+}
 
-
-
-
+function handlePressDecimal() {
+  if (decimalPressed === true || lastKey !== "number") {
+    return;
+  }
+  if (editFirstNumber === true) {
+    num1 += ".";
+  }
+  else {
+    num2 += ".";
+  }
+  decimalPressed = true;
 }
 
 
@@ -178,11 +185,7 @@ function startCalculator() {
 
   clearLastDigitUI.addEventListener("click", handleClearLastDigit);
 
-
-
-  
-
-
+  decimalUI.addEventListener("click", handlePressDecimal);
   
 }
 
