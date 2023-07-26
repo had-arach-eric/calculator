@@ -18,7 +18,7 @@ body {
   grid-template: 20% 80% / 1fr;
   min-height: 50vh;
   min-width: 30vw;
-  border: 3px solid #000000ab;
+  border: 3px solid black;
 }
 
 .display {
@@ -26,7 +26,6 @@ body {
   justify-content: end;
   align-items: center;
   background-color: #ab9191;
-  border: 2px solid black;
 }
 
 .buttons {
