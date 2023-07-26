@@ -7,159 +7,165 @@ Añade soporte para teclado. Podrías encontrarte con un problema en el que tecl
 */
 
 //DOM references
-const displayUI = document.querySelector(".display");
-const cleanerAllUI = document.querySelector(".cleaner-all");
-const clearLastDigitUI = document.querySelector(".cleaner-last-digit");
-const numbersUI = document.querySelectorAll(".number");
-const operatorsUI = document.querySelectorAll(".operator");
-const decimalUI = document.querySelector(".decimal");
-const equalUI = document.querySelector(".equal");
-
-let num1 = "";
-let num2 = "";
-let operator = "";
-let editFirstNumber = true;
-let lastKey = ";"
-let decimalPressed = false;
+const nodes = {
+  displayUI: document.querySelector(".display"),
+  cleanerAllUI: document.querySelector(".cleaner-all"),
+  clearLastDigitUI: document.querySelector(".cleaner-last-digit"),
+  numbersUI: document.querySelectorAll(".number"),
+  operatorsUI: document.querySelectorAll(".operator"),
+  decimalUI: document.querySelector(".decimal"),
+  equalUI: document.querySelector(".equal"),
+}
 
 
-
+const global = {
+  num1: "",
+  num2: "",
+  operator: "",
+  editFirstNumber: true,
+  lastKey: ";",
+  decimalPressed: false,
+}
 
 function add(num1, num2) {
-  return num1 + num2;
+  return roundToThreeDecimals(global.num1 + global.num2);
 }
 
 function subtract(num1, num2) {
-  return num1 - num2;
+  return roundToThreeDecimals(global.num1 - global.num2);
 }
 
 function multiply(num1, num2) {
-  return num1 * num2;
+  return roundToThreeDecimals(global.num1 * global.num2);
 }
 
 function divide(num1, num2) {
-  return num1 / num2;
+  return roundToThreeDecimals(global.num1 / global.num2);
+}
+
+function roundToThreeDecimals(num) {
+  return (Math.round(num * 1000)) / 1000;
 }
 
 function operate(operator, num1, num2) {
   let result = 0;
-  if (operator === "+") {
-    result = (add(+num1, +num2)).toString();
+  if (global.operator === "+") {
+    result = (add(+global.num1, +global.num2)).toString();
   }
-  else if (operator === "-") {
-    result = (subtract(+num1, +num2)).toString();
+  else if (global.operator === "-") {
+    result = (subtract(+global.num1, +global.num2)).toString();
   }
-  else if (operator === "x") {
-    result = (multiply(+num1, +num2)).toString();
+  else if (global.operator === "x") {
+    result = (multiply(+global.num1, +global.num2)).toString();
   }
-  else if (operator === "/") {
-    result = (divide(+num1, +num2)).toString();
+  else if (global.operator === "/") {
+    result = (divide(+global.num1, +global.num2)).toString();
   }
 
   return result;
 }
 
 function handlePressNumber(e) {
-  if (lastKey === "equal") {
+  if (global.lastKey === "equal") {
     return;
   }
 
-  if (editFirstNumber === true) {
-    num1 += e.target.textContent;
-    console.log(num1);
+  if (global.editFirstNumber === true) {
+    global.num1 += e.target.textContent;
+    console.log(global.num1);
   }
   else {
-    num2 += e.target.textContent;
-    console.log(num2);
+    global.num2 += e.target.textContent;
+    console.log(global.num2);
   }
-  lastKey = "number";
+  global.lastKey = "number";
 }
 
 function handlePressOperator(e) {
-  if (num1 === "") {
+  if (global.num1 === "") {
     return;
   }
   
-  if (num2 === "") {
-    editFirstNumber = false;
+  if (global.num2 === "") {
+    global.editFirstNumber = false;
   }
   else {
     handlePressEqual();
   }
-  operator = e.target.textContent;
-  lastKey = "operator";
-  decimalPressed = false;
-  console.log(operator);
+  global.operator = e.target.textContent;
+  global.lastKey = "operator";
+  global.decimalPressed = false;
+  console.log(global.operator);
 }
 
 function handlePressEqual() {
-  if (operator === "" || lastKey !== "number") {
+  if (global.operator === "" || global.lastKey !== "number") {
     return;
   }
-  if (operator === "/" && num2 === "0") {
+  if (global.operator === "/" && global.num2 === "0") {
     return;
   }
 
-  num1 = operate(operator, num1, num2);
-  num2 = "";
-  lastKey = "equal";
-  decimalPressed = false;
-  console.log(num1);
+  global.num1 = operate(global.operator, global.num1, global.num2);
+  global.num2 = "";
+  global.lastKey = "equal";
+  global.decimalPressed = false;
+  console.log(global.num1);
 }
 
 function handleClearAll() {
-  num1 = "";
-  num2 = "";
-  operator = "";
-  editFirstNumber = true;
-  lastKey = "clear all";
-  decimalPressed = false;
+  global.num1 = "";
+  global.num2 = "";
+  global.operator = "";
+  global.editFirstNumber = true;
+  global.lastKey = "clear all";
+  global.decimalPressed = false;
 }
 
 function handleClearLastDigit() {
-  if (lastKey !== "number" || lastKey !== "decimal") {
+  if (global.lastKey !== "number" || global.lastKey !== "decimal") {
     return;
   }
 
-  if (editFirstNumber === true) {
-    if (num1.length === 1) {
-      num1 = "";
+  if (global.editFirstNumber === true) {
+    if (global.num1.length === 1) {
+      global.num1 = "";
     }
     else {
-      let aux = num1.split("");
-      num1 = "";
+      let aux = global.num1.split("");
+      global.num1 = "";
       for (let i = 0; i < aux.length-1; i++) {
-        num1 += aux[i];
+        global.num1 += aux[i];
       }
     }
-    console.log(num1);
+    console.log(global.num1);
   }
   else {
-    if (num2.length === 1) {
-      num2 = "";
+    if (global.num2.length === 1) {
+      global.num2 = "";
     }
     else {
-      let aux = num2.split("");
-      num2 = "";
+      let aux = global.num2.split("");
+      global.num2 = "";
       for (let i = 0; i < aux.length-1; i++) {
-        num2 += aux[i];
+        global.num2 += aux[i];
       }
     }
-    console.log(num2);  
+    console.log(global.num2);  
   }
 }
 
 function handlePressDecimal() {
-  if (decimalPressed === true || lastKey !== "number") {
+  if (global.decimalPressed === true || global.lastKey !== "number") {
     return;
   }
-  if (editFirstNumber === true) {
-    num1 += ".";
+  if (global.editFirstNumber === true) {
+    global.num1 += ".";
   }
   else {
-    num2 += ".";
+    global.num2 += ".";
   }
-  decimalPressed = true;
+  global.decimalPressed = true;
 }
 
 
@@ -169,23 +175,23 @@ function handlePressDecimal() {
 
 function startCalculator() {
   
-  displayUI.textContent = "0";
+  nodes.displayUI.textContent = "0";
 
-  for (let i = 0; i < numbersUI.length; i++) {
-    numbersUI[i].addEventListener("click", handlePressNumber);
+  for (let i = 0; i < nodes.numbersUI.length; i++) {
+    nodes.numbersUI[i].addEventListener("click", handlePressNumber);
   }
 
-  for (let i = 0; i < operatorsUI.length; i++) {
-    operatorsUI[i].addEventListener("click", handlePressOperator);
+  for (let i = 0; i < nodes.operatorsUI.length; i++) {
+    nodes.operatorsUI[i].addEventListener("click", handlePressOperator);
   }
 
-  equalUI.addEventListener("click", handlePressEqual);
+  nodes.equalUI.addEventListener("click", handlePressEqual);
 
-  cleanerAllUI.addEventListener("click", handleClearAll);
+  nodes.cleanerAllUI.addEventListener("click", handleClearAll);
 
-  clearLastDigitUI.addEventListener("click", handleClearLastDigit);
+  nodes.clearLastDigitUI.addEventListener("click", handleClearLastDigit);
 
-  decimalUI.addEventListener("click", handlePressDecimal);
+  nodes.decimalUI.addEventListener("click", handlePressDecimal);
   
 }
 
