@@ -17,7 +17,6 @@ const nodes = {
   equalUI: document.querySelector(".equal"),
 }
 
-
 const global = {
   num1: "",
   num2: "",
