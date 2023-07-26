@@ -120,6 +120,43 @@ function handleClearAll() {
   lastKey = "clear all";
 }
 
+function handleClearLastDigit() {
+  if (lastKey !== "number") {
+    return;
+  }
+
+  if (editFirstNumber === true) {
+    if (num1.length === 1) {
+      num1 = "";
+    }
+    else {
+      let aux = num1.split("");
+      num1 = "";
+      for (let i = 0; i < aux.length-1; i++) {
+        num1 += aux[i];
+      }
+    }
+    console.log(num1);
+  }
+  else {
+    if (num2.length === 1) {
+      num2 = "";
+    }
+    else {
+      let aux = num2.split("");
+      num2 = "";
+      for (let i = 0; i < aux.length-1; i++) {
+        num2 += aux[i];
+      }
+    }
+    console.log(num2);  
+  }
+
+
+
+
+}
+
 
 
 
@@ -140,6 +177,8 @@ function startCalculator() {
   equalUI.addEventListener("click", handlePressEqual);
 
   cleanerAllUI.addEventListener("click", handleClearAll);
+
+  clearLastDigitUI.addEventListener("click", handleClearLastDigit);
 
 
 
