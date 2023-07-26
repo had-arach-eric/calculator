@@ -19,22 +19,118 @@ Mérito extra
 Los usuarios pueden obtener números de coma flotante si hacen los cálculos necesarios para obtenerlos, pero todavía no pueden escribirlos. Añade un botón . y deja que los usuarios introduzcan decimales. Asegúrate de que no pueden escribir más de uno: 12.3.56.5. Es difícil hacer cuentas con estos números. (desactiva el botón de decimales si ya hay uno en la pantalla)
 */
 
-function add(num1, num2) {
+//DOM references
+const displayUI = document.querySelector(".display");
+const cleanerAllUI = document.querySelector(".cleaner-all");
+const clearLastDigitUI = document.querySelector(".cleaner-last-digit");
+const numbersUI = document.querySelectorAll(".number");
+const operatorsUI = document.querySelectorAll(".operator");
+const decimalUI = document.querySelector(".decimal");
+const equalUI = document.querySelector(".equal");
 
+let num1 = "";
+let num2 = "";
+let operator = "";
+let editFirstNumber = true;
+let lastKey = ";"
+
+
+
+
+function add(num1, num2) {
+  return num1 + num2;
 }
 
 function subtract(num1, num2) {
-
+  return num1 - num2;
 }
 
 function multiply(num1, num2) {
-
+  return num1 * num2;
 }
 
 function divide(num1, num2) {
-
+  return num1 / num2;
 }
 
 function operate(operator, num1, num2) {
+  let result = 0;
+  if (operator === "+") {
+    result = (add(+num1, +num2)).toString();
+  }
+  else if (operator === "-") {
+    result = (subtract(+num1, +num2)).toString();
+  }
+  else if (operator === "x") {
+    result = (multiply(+num1, +num2)).toString();
+  }
+  else if (operator === "/") {
+    result = (divide(+num1, +num2)).toString();
+  }
+
+  return result;
+}
+
+function handlePressNumber(e) {
+  if (editFirstNumber === true) {
+    num1 += e.target.textContent;
+    lastKey = "number";
+    console.log(num1);
+  }
+  else {
+    num2 += e.target.textContent;
+    lastKey = "number";
+    console.log(num2);
+  }
+}
+
+function handlePressOperator(e) {
+  if (num1 === "") {
+    return;
+  }
+  
+  if (editFirstNumber === true) {
+    editFirstNumber = false;
+    operator = e.target.textContent;
+    lastKey = "operator";
+  }
+  console.log(operator);
+}
+
+function handlePressEqual() {
+  if (num1 === "" || num2 === "") {
+    return;
+  }
+
+  num1 = operate(operator, num1, num2);
+  console.log(num1);
+  num2 = "";
+}
+
+
+
+function startCalculator() {
+  
+  displayUI.textContent = "0";
+
+  for (let i = 0; i < numbersUI.length; i++) {
+    numbersUI[i].addEventListener("click", handlePressNumber);
+  }
+
+  for (let i = 0; i < operatorsUI.length; i++) {
+    operatorsUI[i].addEventListener("click", handlePressOperator);
+  }
+
+  equalUI.addEventListener("click", handlePressEqual);
+
+
+
+  
+
+
   
 }
+
+
+
+startCalculator();

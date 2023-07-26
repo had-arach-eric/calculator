@@ -26,6 +26,7 @@ body {
   justify-content: end;
   align-items: center;
   background-color: #ab9191;
+  border: 2px solid #000000a8;
 }
 
 .buttons {
@@ -42,18 +43,12 @@ body {
   background-color: #0000ff75;
 }
 
-.number {
+.number,
+.decimal {
   background-color: #13800094;
 }
 
-.operator {
+.operator,
+.equal {
   background-color: #ffeb3bab;
 }
-
-/*
-.numbers-and-operators {
-  grid-template: 3 7 / 1 5;
-  display: grid;
-  grid-template: repeat(4, 1fr) / repeat(4, 1fr);
-}
-*/
