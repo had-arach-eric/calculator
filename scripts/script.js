@@ -1,12 +1,4 @@
 /*
-Una operación de calculadora constará de un número, un operador y otro número. Por ejemplo, 3 + 5. Crea tres variables para cada una de las partes de una operación de calculadora. Crea una variable para el primer número, el operador y el segundo número. Usarás estas variables para actualizar tu pantalla más tarde.
-
-Crea una nueva función operar que tome un operador y 2 números y luego llame a una de las funciones anteriores sobre los números.
-
-Crea una calculadora HTML básica con botones para cada dígito, cada una de las funciones anteriores y una tecla "Equals".
-
-Añade un botón "clear".
-
 Debes redondear las respuestas con decimales largos para que no desborden la pantalla.
 
 Pulsar = antes de introducir todos los números o un operador puede causar problemas.
@@ -95,14 +87,20 @@ function handlePressOperator(e) {
   
   if (num2 === "") {
     editFirstNumber = false;
-    operator = e.target.textContent;
-    lastKey = "operator";
   }
+  else {
+    handlePressEqual();
+  }
+  operator = e.target.textContent;
+  lastKey = "operator";
   console.log(operator);
 }
 
 function handlePressEqual() {
   if (num1 === "" || num2 === "") {
+    return;
+  }
+  if (operator === "/" && num2 === "0") {
     return;
   }
 
