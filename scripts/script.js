@@ -112,6 +112,17 @@ function handlePressEqual() {
   lastKey = "equal";
 }
 
+function handleClearAll() {
+  num1 = "";
+  num2 = "";
+  operator = "";
+  editFirstNumber = true;
+  lastKey = "clear all";
+}
+
+
+
+
 
 
 function startCalculator() {
@@ -127,6 +138,8 @@ function startCalculator() {
   }
 
   equalUI.addEventListener("click", handlePressEqual);
+
+  cleanerAllUI.addEventListener("click", handleClearAll);
 
 
 
