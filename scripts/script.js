@@ -73,12 +73,10 @@ function handlePressNumber(e) {
   if (editFirstNumber === true) {
     num1 += e.target.value;
     displayNum(num1);
-    console.log(num1);
   }
   else {
     num2 += e.target.value;
     displayNum(num2);
-    console.log(num2);
   }
   lastKey = "number";
 }
@@ -96,7 +94,6 @@ function handlePressEqual() {
   lastKey = "equal";
   decimalPressed = false;
   displayUI.textContent = num1;
-  console.log(num1);
 }
 
 function handlePressOperator(e) {
@@ -113,7 +110,6 @@ function handlePressOperator(e) {
   operator = e.target.value;
   lastKey = "operator";
   decimalPressed = false;
-  console.log(operator);
 }
 
 function handleClearAll() {
@@ -143,7 +139,6 @@ function handleClearLastDigit() {
       }
     }
     displayNum(num1);
-    console.log(num1);
   }
   else {
     if (num2.length === 1) {
@@ -157,7 +152,6 @@ function handleClearLastDigit() {
       }
     }
     displayNum(num2);
-    console.log(num2);  
   }
 }
 
@@ -194,12 +188,33 @@ function main() {
   decimalUI.addEventListener("click", handlePressDecimal);
 
   // Keyboard events
-  const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
-  const operators = ["+", "-", "*", "/"];
-
+  const keyClearAll = "Escape";
+  const keyClearLast = "Backspace";
+  const keyNumbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  const keyOperators = ["+", "-", "*", "/"];
+  const keyDecimal = ".";
+  const keyEqual = "Enter";
+  
   document.addEventListener("keydown", e => {
-    
-    console.log(e.key);
+    e.target.value = e.key;
+    if (e.key === "Escape") {
+      handleClearAll();
+    }
+    else if (e.key === "Backspace") {
+      handleClearLastDigit();
+    }
+    else if (keyNumbers.includes(e.key)) {
+      handlePressNumber(e);
+    } 
+    else if (keyOperators.includes(e.key)) {
+      handlePressOperator(e);
+    }
+    else if (e.key === ".") {
+      handlePressDecimal();
+    }
+    else if (e.key === "Enter") {
+      handlePressEqual();
+    }  
   });
 }
 
